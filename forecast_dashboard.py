@@ -8,7 +8,7 @@ from prophet import Prophet
 import numpy as np
 
 st.set_page_config(page_title="📈 Sales Forecasting App", layout="wide")
-st.title("📈 Sales Forecasting Dashboard (Multiple Models)")
+st.title("📈 Sales Forecasting Dashboard")
 
 # -----------------------------
 # Load train & test data from zip
@@ -40,7 +40,7 @@ model_choice = st.radio(
 )
 
 # -----------------------------
-# Forecast Horizon (Fixed Issue)
+# Forecast Horizon
 # -----------------------------
 forecast_steps = st.number_input(
     "Forecast Steps",
@@ -50,7 +50,7 @@ forecast_steps = st.number_input(
 )
 
 # -----------------------------
-# Run Forecast
+# Run Forecast with preset parameters
 # -----------------------------
 if st.button("Run Forecast"):
     with st.spinner(f"Running {model_choice}..."):
@@ -58,38 +58,27 @@ if st.button("Run Forecast"):
             forecast = [train['Sales'].iloc[-1]] * forecast_steps
 
         elif model_choice == "Moving Average":
-            window = st.slider("Moving Average Window", 2, 30, 7)
+            window = 7  # preset best window
             forecast = [train['Sales'].tail(window).mean()] * forecast_steps
 
         elif model_choice == "SES":
-            alpha = st.slider("Smoothing level (alpha)", 0.01, 1.0, 0.3)
-            ses = SimpleExpSmoothing(train['Sales']).fit(smoothing_level=alpha, optimized=False)
+            ses = SimpleExpSmoothing(train['Sales']).fit(smoothing_level=0.3, optimized=False)
             forecast = ses.forecast(forecast_steps)
 
         elif model_choice == "Holt":
-            holt = Holt(train['Sales']).fit()
+            holt = Holt(train['Sales']).fit(smoothing_level=0.8, smoothing_slope=0.2, optimized=False)
             forecast = holt.forecast(forecast_steps)
 
         elif model_choice == "ARIMA":
-            p = st.slider("p", 0, 3, 1)
-            d = st.slider("d", 0, 2, 1)
-            q = st.slider("q", 0, 3, 1)
-            model = sm.tsa.ARIMA(train['Sales'], order=(p, d, q))
+            model = sm.tsa.ARIMA(train['Sales'], order=(2, 1, 2))  # preset parameters
             res = model.fit()
             forecast = res.forecast(steps=forecast_steps)
 
         elif model_choice == "SARIMA":
-            p = st.slider("p", 0, 2, 1)
-            d = st.slider("d", 0, 1, 1)
-            q = st.slider("q", 0, 2, 1)
-            P = st.slider("P", 0, 2, 1)
-            D = st.slider("D", 0, 1, 1)
-            Q = st.slider("Q", 0, 2, 1)
-            seasonal_period = st.number_input("Seasonal Period", value=12)
             model = sm.tsa.statespace.SARIMAX(
                 train['Sales'],
-                order=(p, d, q),
-                seasonal_order=(P, D, Q, seasonal_period),
+                order=(1, 1, 1),
+                seasonal_order=(1, 1, 1, 12),
                 enforce_stationarity=False,
                 enforce_invertibility=False
             )
