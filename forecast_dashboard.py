@@ -67,7 +67,7 @@ if train_zip and test_zip:
     hw_fit = hw_model.fit()
     hw_forecast = hw_fit.forecast(horizon).round()
 
-    fig, ax = plt.subplots(figsize=(10,5))
+    fig, ax = plt.subplots(figsize=(7,3))
     ax.plot(train.index, train["Sales"], label="Train")
     ax.plot(test.index, hw_forecast, label="HW Forecast", color="orange")
     ax.legend()
