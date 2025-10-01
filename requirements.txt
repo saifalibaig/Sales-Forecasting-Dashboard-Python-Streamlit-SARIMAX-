@@ -4,3 +4,5 @@ matplotlib
 statsmodels
 scikit-learn
 joblib
+prophet
+numpy
