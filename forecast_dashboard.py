@@ -60,7 +60,7 @@ if st.button("Run Forecast"):
             forecast = [train['Sales'].iloc[-1]] * forecast_steps
 
         elif model_choice == "Moving Average":
-            window = 7  # preset best window
+            window = 7
             forecast = [train['Sales'].tail(window).mean()] * forecast_steps
 
         elif model_choice == "SES":
@@ -72,7 +72,7 @@ if st.button("Run Forecast"):
             forecast = holt.forecast(forecast_steps)
 
         elif model_choice == "ARIMA":
-            model = sm.tsa.ARIMA(train['Sales'], order=(2, 1, 2))  # preset parameters
+            model = sm.tsa.ARIMA(train['Sales'], order=(2, 1, 2))
             res = model.fit()
             forecast = res.forecast(steps=forecast_steps)
 
@@ -93,7 +93,7 @@ if st.button("Run Forecast"):
             m.fit(prophet_df)
             future = m.make_future_dataframe(periods=forecast_steps)
             forecast_df = m.predict(future)
-            forecast = forecast_df['yhat'][-forecast_steps:].values
+            forecast = forecast_df[forecast_df['ds'] > train.index[-1]]['yhat'].values
 
     # -----------------------------
     # Results
