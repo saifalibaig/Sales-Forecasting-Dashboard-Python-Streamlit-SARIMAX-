@@ -60,7 +60,7 @@ if train_zip and test_zip:
                 except:
                     continue
     results["Holt-Winters"] = evaluate(train["Sales"][-horizon:], hw_forecast, "Holt-Winters")
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(10,5)
     ax.plot(train.index, train["Sales"], label="Train")
     ax.plot(test.index, hw_forecast, label="HW Forecast", color="orange")
     ax.legend(); st.pyplot(fig)
@@ -83,7 +83,7 @@ if train_zip and test_zip:
             except:
                 continue
     results["SARIMA"] = evaluate(train["Sales"][-horizon:], sarima_forecast, "SARIMA")
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(10,5)
     ax.plot(train.index, train["Sales"], label="Train")
     ax.plot(test.index, sarima_forecast, label="SARIMA Forecast", color="green")
     ax.legend(); st.pyplot(fig)
@@ -104,7 +104,7 @@ if train_zip and test_zip:
                 prophet_model = model
                 prophet_forecast = forecast
     results["Prophet"] = evaluate(train["Sales"][-horizon:], prophet_forecast, "Prophet")
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(10,5)
     ax.plot(train.index, train["Sales"], label="Train")
     ax.plot(test.index, prophet_forecast, label="Prophet Forecast", color="red")
     ax.legend(); st.pyplot(fig)
@@ -122,7 +122,7 @@ if train_zip and test_zip:
     weights = {k: v/total_inv_rmse for k,v in inv_rmse.items()}
     ensemble_forecast = (hw_forecast*weights["Holt-Winters"] + sarima_forecast*weights["SARIMA"] + prophet_forecast*weights["Prophet"]).round()
 
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(10,5)
     ax.plot(train.index, train["Sales"], label="Train")
     ax.plot(test.index, ensemble_forecast, label="Ensemble Forecast", color="purple")
     ax.legend(); st.pyplot(fig)
