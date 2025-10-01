@@ -65,7 +65,7 @@ if train_zip and test_zip:
     st.write("Running Holt-Winters Forecast...")
     hw_model = ExponentialSmoothing(train["Sales"], trend="add", seasonal="add", seasonal_periods=12)
     hw_fit = hw_model.fit()
-    hw_forecast = hw_fit.forecast(horizon)
+    hw_forecast = hw_fit.forecast(horizon).round()
 
     fig, ax = plt.subplots(figsize=(10,5))
     ax.plot(train.index, train["Sales"], label="Train")
@@ -82,7 +82,7 @@ if train_zip and test_zip:
     st.write("Running SARIMA Forecast...")
     sarima_model = SARIMAX(train["Sales"], order=(1,1,1), seasonal_order=(1,1,1,12))
     sarima_fit = sarima_model.fit(disp=False)
-    sarima_forecast = sarima_fit.forecast(horizon)
+    sarima_forecast = sarima_fit.forecast(horizon).round()
 
     fig, ax = plt.subplots(figsize=(10,5))
     ax.plot(train.index, train["Sales"], label="Train")
@@ -104,7 +104,7 @@ if train_zip and test_zip:
     future = prophet_model.make_future_dataframe(periods=horizon, freq="D")
     prophet_forecast = prophet_model.predict(future)
 
-    prophet_pred = prophet_forecast.set_index("ds")["yhat"].iloc[-horizon:]
+    prophet_pred = prophet_forecast.set_index("ds")["yhat"].iloc[-horizon:].round()
 
     fig, ax = plt.subplots(figsize=(10,5))
     ax.plot(train.index, train["Sales"], label="Train")
@@ -131,13 +131,13 @@ if train_zip and test_zip:
     future_horizon = st.number_input("Enter future forecast horizon (days)", min_value=1, max_value=365, value=180)
 
     if best_model == "Holt-Winters":
-        final_forecast = hw_fit.forecast(future_horizon)
+        final_forecast = hw_fit.forecast(future_horizon).round()
     elif best_model == "SARIMA":
-        final_forecast = sarima_fit.forecast(future_horizon)
+        final_forecast = sarima_fit.forecast(future_horizon).round()
     else:  # Prophet
         future = prophet_model.make_future_dataframe(periods=future_horizon, freq="D")
         prophet_forecast = prophet_model.predict(future)
-        final_forecast = prophet_forecast.set_index("ds")["yhat"].iloc[-future_horizon:]
+        final_forecast = prophet_forecast.set_index("ds")["yhat"].iloc[-future_horizon:].round()
 
     fig, ax = plt.subplots(figsize=(12,6))
     ax.plot(train.index, train["Sales"], label="Train")
@@ -149,5 +149,5 @@ if train_zip and test_zip:
 
     st.subheader("📄 Final Forecast Data")
     forecast_dates = pd.date_range(start=train.index[-1]+pd.Timedelta(days=1), periods=future_horizon)
-    forecast_df = pd.DataFrame({"Date": forecast_dates, "Forecasted_Sales": final_forecast.values if hasattr(final_forecast,'values') else final_forecast})
+    forecast_df = pd.DataFrame({"Date": forecast_dates, "Forecasted_Sales": final_forecast.astype(int)})
     st.dataframe(forecast_df)
