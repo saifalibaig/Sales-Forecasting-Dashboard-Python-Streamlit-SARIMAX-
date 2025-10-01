@@ -54,6 +54,8 @@ forecast_steps = st.number_input(
 # -----------------------------
 if st.button("Run Forecast"):
     with st.spinner(f"Running {model_choice}..."):
+        forecast = []
+
         if model_choice == "Naive Forecast":
             forecast = [train['Sales'].iloc[-1]] * forecast_steps
 
@@ -96,7 +98,7 @@ if st.button("Run Forecast"):
     # -----------------------------
     # Results
     # -----------------------------
-    forecast_dates = pd.date_range(start=train.index[-1], periods=forecast_steps+1, freq='D')[1:]
+    forecast_dates = pd.date_range(start=train.index[-1] + pd.Timedelta(days=1), periods=forecast_steps, freq='D')
     results = pd.DataFrame({
         'date': forecast_dates,
         'forecasted_Sales': forecast
