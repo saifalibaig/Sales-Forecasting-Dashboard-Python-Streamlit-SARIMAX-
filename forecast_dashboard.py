@@ -22,10 +22,10 @@ train = load_zip_csv("train.zip")
 test = load_zip_csv("test.zip")
 
 # Convert to datetime
-train['date'] = pd.to_datetime(train['date'])
-test['date'] = pd.to_datetime(test['date'])
-train = train.set_index('date')
-test = test.set_index('date')
+train['Date'] = pd.to_datetime(train['Date'])
+test['Date'] = pd.to_datetime(test['Date'])
+train = train.set_index('Date')
+test = test.set_index('Date')
 
 # Fill missing values
 train['Sales'] = train['Sales'].fillna(method='ffill').fillna(0)
