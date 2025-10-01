@@ -23,10 +23,10 @@ def load_zip_csv(path):
 train = load_zip_csv("train.zip")
 test = load_zip_csv("test.zip")
 
-train['Date'] = pd.to_datetime(train['Date'])
-test['Date'] = pd.to_datetime(test['Date'])
-train = train.set_index('Date')
-test = test.set_index('Date')
+train['date'] = pd.to_datetime(train['date'])
+test['date'] = pd.to_datetime(test['date'])
+train = train.set_index('date')
+test = test.set_index('date')
 
 st.subheader("📊 Data Preview")
 st.write(train.head())
@@ -40,9 +40,14 @@ model_choice = st.radio(
 )
 
 # -----------------------------
-# Forecast Horizon
+# Forecast Horizon (Fixed Issue)
 # -----------------------------
-forecast_steps = st.number_input("Forecast Steps", min_value=1, max_value=365, value=len(test))
+forecast_steps = st.number_input(
+    "Forecast Steps",
+    min_value=1,
+    max_value=max(len(test), 1),
+    value=min(len(test), 30)
+)
 
 # -----------------------------
 # Run Forecast
