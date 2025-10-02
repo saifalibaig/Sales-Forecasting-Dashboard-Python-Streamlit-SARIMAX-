@@ -1,3 +1,54 @@
-# Sales-Forecasting-Dashboard-Python-Streamlit-SARIMAX-
-Developed an interactive dashboard to forecast business sales using advanced time series modeling. The solution leverages SARIMAX for accurate predictions, with a Streamlit-based interface for easy exploration of historical data, forecasted trends, and visual insights.
-Streamlit Link: https://sarimax-forecast-dashboard.streamlit.app/
+# 📈 Sales Forecasting Dashboard
+
+An interactive **Streamlit-based application** for forecasting sales using multiple time series models.  
+The dashboard enables users to upload their sales data, visualize historical trends, compare forecasting models, and generate future sales predictions.  
+
+🔗 **Live App**: [Sales Forecasting Dashboard](https://sarimax-forecast-dashboard.streamlit.app/)
+
+---
+
+## 🚀 Features
+
+- 📂 **Data Upload**: Supports ZIP files containing `train.csv` and `test.csv`.
+- 🔎 **Data Preprocessing**: Handles missing values, sets frequency to daily, and prepares time series.
+- 📊 **Model Implementations**:
+  - Holt-Winters Exponential Smoothing
+  - SARIMA (Seasonal ARIMA)
+  - Prophet (Facebook)
+- 📈 **Visualizations**:
+  - Forecast plots for each model
+  - Comparison of predicted vs actual sales
+  - RMSE and MAE evaluation metrics
+- 🏆 **Model Comparison**: Ranks models based on RMSE.
+- 🔮 **Final Forecast**: Extend predictions into the future (user-defined horizon).
+- 📄 **Downloadable Forecast Table**.
+
+---
+
+## 🎯 Use Cases
+
+- Demand forecasting for retail & e-commerce businesses  
+- Inventory planning & optimization  
+- Financial forecasting & revenue projections  
+- Strategy development for marketing & sales campaigns  
+
+---
+
+## 📈 Future Enhancements
+
+- Add advanced hyperparameter tuning for SARIMA & Prophet  
+- Include machine learning regressors (XGBoost, LightGBM, RNN/LSTM)  
+- Enable multi-store or product-level forecasting  
+- Export forecasts directly as CSV or Excel  
+- Add real-time API integration for continuous forecasting  
+
+---
+
+## 🛠 Tech Stack
+
+- **Python**: Pandas, NumPy, Matplotlib, scikit-learn  
+- **Time Series Models**: SARIMA, Holt-Winters, Prophet  
+- **Streamlit**: Interactive web dashboard  
+- **Deployment**: Streamlit Cloud  
+
+---
