@@ -7,6 +7,18 @@ The dashboard enables users to upload their sales data, visualize historical tre
 
 ---
 
+## ✨ Key Highlights
+
+- Upload custom sales datasets (`train.csv`, `test.csv` inside ZIP)  
+- Automated preprocessing & handling of missing values  
+- Three forecasting models implemented: **Holt-Winters, SARIMA, Prophet**  
+- Side-by-side model performance evaluation with **MAE & RMSE**  
+- Interactive forecast plots & future predictions (user-defined horizon)  
+- Ranked model selection based on lowest RMSE  
+- Final forecast displayed in **visual and tabular form**  
+
+---
+
 ## 🚀 Features
 
 - 📂 **Data Upload**: Supports ZIP files containing `train.csv` and `test.csv`.
